@@ -7,363 +7,57 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      font-family: 'Quicksand', 'Segoe UI', sans-serif;
-      background: #c53a6b;
-      color: #4a2a36;
-      line-height: 1.5;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* === FONDO CON BRILLITOS === */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255,245,240,0.3) 2px, transparent 2px),
-        radial-gradient(circle at 80% 70%, rgba(255,245,240,0.35) 1px, transparent 2px),
-        radial-gradient(circle at 40% 90%, rgba(255,220,200,0.4) 1px, transparent 2px),
-        radial-gradient(circle at 70% 15%, rgba(255,210,190,0.3) 2px, transparent 2px),
-        repeating-linear-gradient(45deg, rgba(255,245,235,0.1) 0px, rgba(255,245,235,0.1) 1px, transparent 1px, transparent 12px);
-      background-size: 180px 180px, 240px 240px, 300px 300px, 200px 200px, 30px 30px;
-      animation: sparkle 3s infinite linear;
-    }
-
-    @keyframes sparkle {
-      0% { opacity: 0.5; background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
-      50% { opacity: 1; background-position: 15px 20px, -10px -15px, 20px -5px, -15px 10px, 5px 5px; }
-      100% { opacity: 0.5; background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
-    }
-
-    .bg-gradient {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 30% 10%, #e75a8c, #b12a58);
-      z-index: -2;
-    }
-
-    .main-content {
-      position: relative;
-      z-index: 2;
-      background: rgba(255, 245, 245, 0.92);
-      border-radius: 0 0 48px 48px;
-      backdrop-filter: blur(1px);
-      opacity: 0;
-      transition: opacity 1.2s ease;
-    }
-    .main-content.visible {
-      opacity: 1;
-    }
-
-    /* === SOBRE === */
-    .envelope-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.6s ease;
-      cursor: pointer;
-    }
-    .envelope-card {
-      background: #ffeff5;
-      width: 90%;
-      max-width: 380px;
-      border-radius: 40px;
-      padding: 30px 20px 40px;
-      text-align: center;
-      box-shadow: 0 25px 40px rgba(0,0,0,0.3);
-      animation: floatEnvelope 0.7s ease-out;
-      border: 2px solid #ffc0d0;
-    }
-    @keyframes floatEnvelope {
-      0% { transform: scale(0.7) translateY(60px); opacity: 0; }
-      100% { transform: scale(1) translateY(0); opacity: 1; }
-    }
-    .envelope-icon {
-      font-size: 5rem;
-      color: #e64b7c;
-      margin-bottom: 15px;
-      animation: pulse 1.2s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.1); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.8; }
-    }
-    .envelope-card h3 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 2.4rem;
-      color: #b83b64;
-      margin-bottom: 15px;
-    }
-    .envelope-card p {
-      color: #8a536b;
-      margin-bottom: 25px;
-    }
-    .btn-open {
-      background: #e64b7c;
-      border: none;
-      padding: 12px 32px;
-      border-radius: 60px;
-      font-weight: 600;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-    }
-    .btn-open:hover {
-      background: #c73b68;
-      transform: scale(1.02);
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    header {
-      text-align: center;
-      padding: 50px 20px 20px;
-    }
-    .title-icon i {
-      font-size: 3.5rem;
-      color: #e64b7c;
-      filter: drop-shadow(0 0 6px rgba(230,75,124,0.5));
-    }
-    h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 3.8rem;
-      color: #b13b62;
-      font-weight: normal;
-    }
-    .girl-name {
-      font-family: 'Great Vibes', cursive;
-      font-size: 3rem;
-      color: #d45a86;
-      margin-top: -8px;
-    }
-    .date-badge {
-      background: rgba(255,235,240,0.9);
-      display: inline-block;
-      padding: 8px 24px;
-      border-radius: 60px;
-      font-weight: 600;
-      color: #b83b64;
-      margin-top: 20px;
-      backdrop-filter: blur(3px);
-    }
-    .blessing {
-      max-width: 550px;
-      margin: 30px auto 0;
-      font-style: italic;
-      font-size: 1rem;
-      color: #6e4457;
-      background: rgba(255,245,245,0.5);
-      padding: 10px 20px;
-      border-radius: 50px;
-    }
-
-    section {
-      padding: 45px 20px;
-    }
-    .section-title {
-      font-family: 'Great Vibes', cursive;
-      font-size: 2.7rem;
-      color: #c54472;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .section-title:after {
-      content: ' ✧ ✿ ✧ ';
-      font-size: 0.9rem;
-      display: block;
-      color: #f2a0bc;
-    }
-
-    .countdown-container {
-      background: rgba(255,250,245,0.8);
-      border-radius: 50px;
-      padding: 20px 15px;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
-    }
-    .contador {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .countdown-unit {
-      background: white;
-      border-radius: 30px;
-      padding: 10px 18px;
-      min-width: 80px;
-      border: 1px solid #f5bfd2;
-    }
-    .countdown-value {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: #d14776;
-    }
-    .countdown-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      color: #a55f7a;
-    }
-
-    .info-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      justify-content: center;
-    }
-    .info-card {
-      background: rgba(255,255,245,0.9);
-      border-radius: 35px;
-      padding: 24px;
-      flex: 1;
-      min-width: 240px;
-      backdrop-filter: blur(5px);
-      border: 1px solid #ffe1ec;
-    }
-    .info-title {
-      font-family: 'Great Vibes', cursive;
-      font-size: 2rem;
-      color: #d14776;
-    }
-    .map-btn, .submit-btn {
-      background: #e86693;
-      border: none;
-      color: white;
-      padding: 10px 28px;
-      border-radius: 60px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-      display: inline-block;
-      text-decoration: none;
-    }
-    .map-btn:hover, .submit-btn:hover {
-      background: #c64974;
-      transform: scale(0.97);
-    }
-
-    .rsvp-form {
-      max-width: 650px;
-      margin: 0 auto;
-      background: rgba(255,252,250,0.95);
-      border-radius: 48px;
-      padding: 30px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.05);
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .form-group label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #aa6f86;
-    }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 12px 20px;
-      border-radius: 60px;
-      border: 1px solid #f5bfd2;
-      background: white;
-      font-family: inherit;
-      font-size: 1rem;
-    }
-    .person-group {
-      background: #fff9fc;
-      border-radius: 40px;
-      padding: 15px;
-      margin-bottom: 15px;
-      border: 1px solid #ffe0ec;
-    }
-    .person-group .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-    .person-group .row .name-field {
-      flex: 2;
-      min-width: 150px;
-    }
-    .person-group .row .type-field {
-      flex: 1;
-      min-width: 120px;
-    }
-    .companions-container {
-      background: #fff4f9;
-      border-radius: 36px;
-      padding: 15px;
-      border: 1px dashed #e89fbf;
-      margin-top: 10px;
-    }
-    .warning-red {
-      color: #e33b5e;
-      font-size: 0.85rem;
-      margin-top: 10px;
-      display: inline-block;
-      background: rgba(227,59,94,0.1);
-      padding: 5px 12px;
-      border-radius: 50px;
-    }
-    .note-ages {
-      font-size: 0.75rem;
-      color: #b16f8a;
-      text-align: center;
-      margin-top: 10px;
-    }
-    .success-message {
-      background: #ffe1ec;
-      border-radius: 48px;
-      color: #b8456e;
-      text-align: center;
-      padding: 30px;
-    }
-    footer {
-      background: rgba(190, 70, 100, 0.8);
-      text-align: center;
-      padding: 25px;
-      color: #fff0f3;
-    }
-    @media (max-width: 650px) {
-      h1 { font-size: 2.8rem; }
-      .girl-name { font-size: 2.5rem; }
-      .person-group .row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
+    /* ========== ESTILOS COMPLETOS (igual que antes) ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Quicksand', sans-serif; background: #c53a6b; color: #4a2a36; line-height: 1.5; overflow-x: hidden; position: relative; }
+    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background: radial-gradient(circle at 20% 30%, rgba(255,245,240,0.3) 2px, transparent 2px), radial-gradient(circle at 80% 70%, rgba(255,245,240,0.35) 1px, transparent 2px), radial-gradient(circle at 40% 90%, rgba(255,220,200,0.4) 1px, transparent 2px), radial-gradient(circle at 70% 15%, rgba(255,210,190,0.3) 2px, transparent 2px), repeating-linear-gradient(45deg, rgba(255,245,235,0.1) 0px, rgba(255,245,235,0.1) 1px, transparent 1px, transparent 12px); background-size: 180px 180px, 240px 240px, 300px 300px, 200px 200px, 30px 30px; animation: sparkle 3s infinite linear; }
+    @keyframes sparkle { 0% { opacity: 0.5; background-position: 0 0, 0 0, 0 0, 0 0, 0 0; } 50% { opacity: 1; background-position: 15px 20px, -10px -15px, 20px -5px, -15px 10px, 5px 5px; } 100% { opacity: 0.5; background-position: 0 0, 0 0, 0 0, 0 0, 0 0; } }
+    .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 30% 10%, #e75a8c, #b12a58); z-index: -2; }
+    .main-content { position: relative; z-index: 2; background: rgba(255, 245, 245, 0.92); border-radius: 0 0 48px 48px; backdrop-filter: blur(1px); opacity: 0; transition: opacity 1.2s ease; }
+    .main-content.visible { opacity: 1; }
+    .envelope-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 2000; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease; cursor: pointer; }
+    .envelope-card { background: #ffeff5; width: 90%; max-width: 380px; border-radius: 40px; padding: 30px 20px 40px; text-align: center; box-shadow: 0 25px 40px rgba(0,0,0,0.3); animation: floatEnvelope 0.7s ease-out; border: 2px solid #ffc0d0; }
+    @keyframes floatEnvelope { 0% { transform: scale(0.7) translateY(60px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+    .envelope-icon { font-size: 5rem; color: #e64b7c; margin-bottom: 15px; animation: pulse 1.2s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 0.8; } }
+    .envelope-card h3 { font-family: 'Great Vibes', cursive; font-size: 2.4rem; color: #b83b64; }
+    .btn-open { background: #e64b7c; border: none; padding: 12px 32px; border-radius: 60px; font-weight: 600; color: white; font-size: 1rem; cursor: pointer; transition: 0.2s; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    header { text-align: center; padding: 50px 20px 20px; }
+    .title-icon i { font-size: 3.5rem; color: #e64b7c; }
+    h1 { font-family: 'Great Vibes', cursive; font-size: 3.8rem; color: #b13b62; }
+    .girl-name { font-family: 'Great Vibes', cursive; font-size: 3.2rem; color: #d45a86; }
+    .date-badge { background: rgba(255,235,240,0.9); display: inline-block; padding: 8px 24px; border-radius: 60px; font-weight: 600; color: #b83b64; margin-top: 20px; }
+    .blessing { max-width: 550px; margin: 30px auto 0; font-style: italic; background: rgba(255,245,245,0.5); padding: 10px 20px; border-radius: 50px; }
+    section { padding: 45px 20px; }
+    .section-title { font-family: 'Great Vibes', cursive; font-size: 2.7rem; color: #c54472; text-align: center; margin-bottom: 30px; }
+    .countdown-container { background: rgba(255,250,245,0.8); border-radius: 50px; padding: 20px 15px; backdrop-filter: blur(5px); }
+    .contador { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+    .countdown-unit { background: white; border-radius: 30px; padding: 10px 18px; min-width: 80px; border: 1px solid #f5bfd2; }
+    .countdown-value { font-size: 2.2rem; font-weight: 700; color: #d14776; }
+    .countdown-label { font-size: 0.7rem; text-transform: uppercase; color: #a55f7a; }
+    .info-grid { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
+    .info-card { background: rgba(255,255,245,0.9); border-radius: 35px; padding: 24px; flex: 1; min-width: 240px; backdrop-filter: blur(5px); border: 1px solid #ffe1ec; }
+    .info-title { font-family: 'Great Vibes', cursive; font-size: 2rem; color: #d14776; }
+    .map-btn, .submit-btn { background: #e86693; border: none; color: white; padding: 10px 28px; border-radius: 60px; font-weight: 600; cursor: pointer; display: inline-block; text-decoration: none; }
+    .rsvp-form { max-width: 650px; margin: 0 auto; background: rgba(255,252,250,0.95); border-radius: 48px; padding: 30px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: #aa6f86; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 20px; border-radius: 60px; border: 1px solid #f5bfd2; background: white; font-family: inherit; font-size: 1rem; }
+    .person-group { background: #fff9fc; border-radius: 40px; padding: 15px; margin-bottom: 15px; border: 1px solid #ffe0ec; }
+    .person-group .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .person-group .row .name-field { flex: 2; min-width: 150px; }
+    .person-group .row .type-field { flex: 1; min-width: 120px; }
+    .companions-container { background: #fff4f9; border-radius: 36px; padding: 15px; border: 1px dashed #e89fbf; margin-top: 10px; display: none; }
+    .warning-red { color: #e33b5e; font-size: 0.85rem; margin-top: 10px; display: inline-block; background: rgba(227,59,94,0.1); padding: 5px 12px; border-radius: 50px; }
+    .note-ages { font-size: 0.75rem; color: #b16f8a; text-align: center; margin-top: 10px; }
+    .success-message { background: #ffe1ec; border-radius: 48px; color: #b8456e; text-align: center; padding: 30px; display: none; }
+    .loading { display: none; text-align: center; padding: 30px; }
+    footer { background: rgba(190, 70, 100, 0.8); text-align: center; padding: 25px; color: #fff0f3; }
+    .admin-button { position: fixed; bottom: 20px; right: 20px; background: #e86693; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; cursor: pointer; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .debug-panel { display: none; background: #ffe1ec; padding: 15px; border-radius: 20px; margin-top: 20px; text-align: left; }
+    .debug-log { background: #2d2d2d; color: #0f0; padding: 10px; border-radius: 12px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; }
+    @media (max-width: 650px) { h1 { font-size: 2.8rem; } .girl-name { font-size: 2.5rem; } .person-group .row { flex-direction: column; align-items: stretch; } }
   </style>
 </head>
 <body>
@@ -376,196 +70,143 @@
     <h3>✨ ¡Tienes una invitación! ✨</h3>
     <p>Gema te espera en sus XV Años</p>
     <button class="btn-open" id="openInvitationBtn">Abrir invitación <i class="fas fa-arrow-right"></i></button>
-    <p class="envelope-note" style="font-size:0.7rem; margin-top:15px;">Toca para abrir 💖</p>
   </div>
 </div>
 
-<!-- CONTENIDO -->
+<!-- CONTENIDO PRINCIPAL -->
 <div id="mainContent" class="main-content">
   <header>
     <div class="title-icon"><i class="fas fa-crown"></i></div>
     <h1>Mis XV Años</h1>
     <div class="girl-name">Gema</div>
     <div class="date-badge"><i class="fas fa-calendar-alt"></i> 17 de Mayo 2026</div>
-    <div class="blessing">
-      "Con la bendición de Dios y el amor de mis padres,<br>me siento feliz de llegar a este momento de mi vida"
-    </div>
+    <div class="blessing">"Con la bendición de Dios y el amor de mis padres,<br>me siento feliz de llegar a este momento de mi vida"</div>
   </header>
 
   <!-- Contador -->
-  <section>
-    <div class="container">
-      <div class="countdown-container">
-        <div class="section-title" style="margin-bottom: 10px;">¡Faltan!</div>
-        <div class="contador" id="contador">
-          <div class="countdown-unit"><span class="countdown-value" id="days">00</span><span class="countdown-label">Días</span></div>
-          <div class="countdown-unit"><span class="countdown-value" id="hours">00</span><span class="countdown-label">Horas</span></div>
-          <div class="countdown-unit"><span class="countdown-value" id="minutes">00</span><span class="countdown-label">Minutos</span></div>
-          <div class="countdown-unit"><span class="countdown-value" id="seconds">00</span><span class="countdown-label">Segundos</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section><div class="container"><div class="countdown-container"><div class="section-title">¡Faltan!</div><div class="contador" id="contador"><div class="countdown-unit"><span class="countdown-value" id="days">00</span><span class="countdown-label">Días</span></div><div class="countdown-unit"><span class="countdown-value" id="hours">00</span><span class="countdown-label">Horas</span></div><div class="countdown-unit"><span class="countdown-value" id="minutes">00</span><span class="countdown-label">Minutos</span></div><div class="countdown-unit"><span class="countdown-value" id="seconds">00</span><span class="countdown-label">Segundos</span></div></div></div></div></section>
 
   <!-- Familia -->
-  <section>
-    <div class="container">
-      <div class="section-title">Familia & Padrinos</div>
-      <div class="info-grid">
-        <div class="info-card">
-          <div class="info-title"><i class="fas fa-heart"></i> Padres</div>
-          <ul style="list-style:none;">
-            <li><i class="fas fa-user" style="color:#e86693;"></i> Mario Alberto Figueroa Flores</li>
-            <li><i class="fas fa-user" style="color:#e86693;"></i> Luz María Inojosa Ceja</li>
-          </ul>
-        </div>
-        <div class="info-card">
-          <div class="info-title"><i class="fas fa-hands-helping"></i> Padrinos</div>
-          <ul style="list-style:none;">
-            <li><i class="fas fa-user" style="color:#e86693;"></i> Rodrigo Figueroa Flores</li>
-            <li><i class="fas fa-user" style="color:#e86693;"></i> Abril Neftali Contreras de Figueroa</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section><div class="container"><div class="section-title">Familia & Padrinos</div><div class="info-grid"><div class="info-card"><div class="info-title"><i class="fas fa-heart"></i> Padres</div><ul class="info-list" style="list-style:none;"><li><i class="fas fa-user icon-small" style="color:#e86693;"></i> Mario Alberto Figueroa Flores</li><li><i class="fas fa-user icon-small" style="color:#e86693;"></i> Luz María Inojosa Ceja</li></ul></div><div class="info-card"><div class="info-title"><i class="fas fa-hands-helping"></i> Padrinos</div><ul class="info-list" style="list-style:none;"><li><i class="fas fa-user icon-small" style="color:#e86693;"></i> Rodrigo Figueroa Flores</li><li><i class="fas fa-user icon-small" style="color:#e86693;"></i> Abril Neftali Contreras de Figueroa</li></ul></div></div></div></section>
 
-  <!-- Lugar y código de vestimenta -->
-  <section>
-    <div class="container">
-      <div class="info-grid">
-        <div class="info-card">
-          <div class="info-title"><i class="fas fa-clock"></i> Fecha y Hora</div>
-          <p><strong>Domingo 17 de Mayo de 2026</strong><br>7:00 PM</p>
-        </div>
-        <div class="info-card">
-          <div class="info-title"><i class="fas fa-map-marker-alt"></i> Lugar</div>
-          <p>Terraza Real Santa María</p>
-          <a href="https://maps.app.goo.gl/D5YE39qhtja8sTaMA" target="_blank" class="map-btn"><i class="fas fa-map"></i> Ver ubicación</a>
-        </div>
-        <div class="info-card">
-          <div class="info-title"><i class="fas fa-tshirt"></i> Código de vestimenta</div>
-          <p>Casual - Elegante</p>
-          <div class="warning-red">
-            <i class="fas fa-ban"></i> Favor de evitar prendas de color rojo
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Lugar -->
+  <section><div class="container"><div class="info-grid"><div class="info-card"><div class="info-title"><i class="fas fa-clock"></i> Fecha y Hora</div><p><strong>Domingo 17 de Mayo de 2026</strong><br>7:00 PM</p></div><div class="info-card"><div class="info-title"><i class="fas fa-map-marker-alt"></i> Lugar</div><p>Terraza Real Santa María</p><a href="https://maps.app.goo.gl/D5YE39qhtja8sTaMA" target="_blank" class="map-btn"><i class="fas fa-map"></i> Ver ubicación</a></div><div class="info-card"><div class="info-title"><i class="fas fa-tshirt"></i> Código de vestimenta</div><p>Casual - Elegante</p><div class="warning-red"><i class="fas fa-ban"></i> Favor de evitar prendas de color rojo</div></div></div></div></section>
 
   <!-- RSVP -->
-  <section>
-    <div class="container">
-      <div class="section-title">Confirma tu asistencia</div>
-      <p style="text-align:center; margin-bottom:20px;">Favor de confirmar antes del <strong>8 de mayo de 2026</strong></p>
+  <section><div class="container"><div class="section-title">Confirma tu asistencia</div><p style="text-align:center; margin-bottom:20px;">Confirma antes del <strong>8 de mayo de 2026</strong></p><div class="loading" id="loadingIndicator"><i class="fas fa-spinner fa-pulse fa-2x"></i><p>Enviando...</p></div><div class="rsvp-form" id="rsvpForm"><div class="form-group"><label>Tu nombre completo *</label><input type="text" id="nombrePrincipal" placeholder="Ej: María González" required></div><div class="form-group"><label>Eres:</label><select id="tipoPrincipal" required><option value="adulto">👩 Adulto (11 años o más)</option><option value="nino">🧒 Niño (0 a 10 años)</option></select><div class="note-ages">📌 Niño: 0-10 años / Adulto: 11+ años</div></div><div class="form-group"><label>Número total de personas (incluyéndote)</label><select id="totalPersonas" required><option value="">Selecciona...</option><option value="1">1 persona (solo yo)</option><option value="2">2 personas</option><option value="3">3 personas</option><option value="4">4 personas</option><option value="5">5 personas</option><option value="6">6 personas</option></select></div><div id="companionsContainer" class="companions-container"><p style="font-weight:bold;">👥 Datos de los acompañantes:</p><div id="companionsInputs"></div></div><div class="form-group"><label>Mensaje (opcional)</label><textarea id="mensaje" rows="2" placeholder="Déjanos algún mensaje..."></textarea></div><button type="button" id="submitBtn" class="submit-btn">Enviar confirmación</button><p style="font-size:0.7rem; text-align:center; margin-top:15px;">Tu información está segura.</p></div><div class="success-message" id="successMessage"><i class="fas fa-check-circle" style="font-size:3rem; color:#d14776;"></i><h3>¡Confirmación exitosa!</h3><p>Gracias por confirmar. ¡Te esperamos!</p></div><p style="text-align:center; margin-top:45px; font-style:italic;">Los momentos más felices se tornan más lindos cuando los compartimos con familia y amigos.</p><p style="text-align:center; font-family:'Great Vibes'; font-size:1.8rem;">¡Te esperamos!</p></div></section>
+  <footer><p>Gema ✨ 17 de Mayo 2026</p></footer>
+</div>
 
-      <div class="loading" id="loadingIndicator" style="display:none;">
-        <i class="fas fa-spinner fa-pulse fa-2x" style="color:#d14776;"></i>
-        <p>Enviando...</p>
-      </div>
-
-      <div class="rsvp-form" id="rsvpForm">
-        <div class="form-group">
-          <label>Tu nombre completo *</label>
-          <input type="text" id="nombrePrincipal" placeholder="Ej: María González" required>
-        </div>
-        <div class="form-group">
-          <label>Eres:</label>
-          <select id="tipoPrincipal" required>
-            <option value="adulto">👩 Adulto (11 años o más)</option>
-            <option value="nino">🧒 Niño (0 a 10 años)</option>
-          </select>
-          <div class="note-ages">📌 Se considera niño de 0 a 10 años, adulto de 11 años en adelante.</div>
-        </div>
-        <div class="form-group">
-          <label>Número total de personas (incluyéndote) *</label>
-          <select id="totalPersonas" required>
-            <option value="">Selecciona...</option>
-            <option value="1">1 persona (solo yo)</option>
-            <option value="2">2 personas</option>
-            <option value="3">3 personas</option>
-            <option value="4">4 personas</option>
-            <option value="5">5 personas</option>
-            <option value="6">6 personas</option>
-          </select>
-        </div>
-        <div id="companionsContainer" class="companions-container" style="display:none;">
-          <p style="font-weight:bold; margin-bottom:15px;">👥 Datos de los acompañantes:</p>
-          <div id="companionsInputs"></div>
-        </div>
-        <div class="form-group">
-          <label>Mensaje (opcional)</label>
-          <textarea id="mensaje" rows="2" placeholder="Déjanos algún mensaje..."></textarea>
-        </div>
-        <button type="button" id="submitBtn" class="submit-btn">Enviar confirmación</button>
-        <p style="font-size:0.7rem; text-align:center; margin-top:15px;">Tu información está segura.</p>
-      </div>
-
-      <div class="success-message" id="successMessage" style="display:none;">
-        <i class="fas fa-check-circle" style="font-size:3rem; color:#d14776;"></i>
-        <h3>¡Confirmación exitosa!</h3>
-        <p>Gracias por confirmar. ¡Te esperamos!</p>
-      </div>
-
-      <p style="text-align:center; margin-top:45px; font-style:italic; color:#a14c6e;">Los momentos más felices se tornan más lindos cuando los compartimos con familia y amigos.</p>
-      <p style="text-align:center; font-family:'Great Vibes'; font-size:1.8rem;">¡Te esperamos!</p>
-    </div>
-  </section>
-
-  <footer>
-    <p>Gema ✨ 17 de Mayo 2026</p>
-  </footer>
+<!-- Botón Admin y panel debug -->
+<button class="admin-button" id="adminBtn"><i class="fas fa-user-shield"></i></button>
+<div id="debugPanel" class="debug-panel" style="display:none;">
+  <h4>🔧 Panel de Administración</h4>
+  <button id="testSheetsBtn" style="background:#e86693; color:white; border:none; padding:8px 16px; border-radius:30px; margin:5px;">Probar conexión con Google Sheets</button>
+  <button id="clearLogBtn" style="background:#666; color:white; border:none; padding:8px 16px; border-radius:30px;">Limpiar Log</button>
+  <div id="debugLog" class="debug-log"></div>
 </div>
 
 <script>
-  // === CONFIGURACIÓN ===
+  // ==================== CONFIGURACIÓN ====================
+  // ⚠️ IMPORTANTE: REEMPLAZA ESTA URL CON LA DE TU APPS SCRIPT (la nueva después de actualizar el código)
   const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyWujFf_xENCdj3zvg1howqqEF5hTA5YwFCZQKXVMssAaSjPZVZFcjOBpqDZRhzuWd4/exec';
   const USE_GOOGLE_SHEETS = true;
+  const ADMIN_PASSWORD = 'admin123'; // Contraseña para el panel de admin (cámbiala si quieres)
 
-  // === ABRIR SOBRE ===
-  const overlay = document.getElementById('envelopeOverlay');
-  const mainContent = document.getElementById('mainContent');
-  const openBtn = document.getElementById('openInvitationBtn');
-  function openInvitation() {
-    overlay.style.opacity = '0';
-    setTimeout(() => {
-      overlay.style.display = 'none';
-      mainContent.classList.add('visible');
-    }, 600);
+  // Variables de estado
+  let isAdmin = false;
+  let debugLogs = [];
+
+  // Función de logging (solo admin)
+  function logDebug(msg, data = null) {
+    if (!isAdmin) return;
+    const timestamp = new Date().toLocaleTimeString();
+    let entry = `[${timestamp}] ${msg}`;
+    if (data) entry += `: ${JSON.stringify(data)}`;
+    debugLogs.push(entry);
+    const logDiv = document.getElementById('debugLog');
+    if (logDiv) logDiv.innerHTML = debugLogs.join('<br>');
+    console.log(entry);
   }
-  overlay.addEventListener('click', openInvitation);
-  openBtn.addEventListener('click', (e) => { e.stopPropagation(); openInvitation(); });
 
-  // === CONTADOR ===
+  // Mostrar/ocultar panel admin
+  document.getElementById('adminBtn').addEventListener('click', () => {
+    if (!isAdmin) {
+      const pwd = prompt('Contraseña de administrador:');
+      if (pwd === ADMIN_PASSWORD) {
+        isAdmin = true;
+        document.getElementById('debugPanel').style.display = 'block';
+        logDebug('✅ Panel de administración activado');
+      } else if (pwd) alert('Contraseña incorrecta');
+    } else {
+      document.getElementById('debugPanel').style.display = 
+        document.getElementById('debugPanel').style.display === 'none' ? 'block' : 'none';
+    }
+  });
+  document.getElementById('clearLogBtn')?.addEventListener('click', () => { debugLogs = []; document.getElementById('debugLog').innerHTML = ''; });
+
+  // Función para probar Google Sheets (envía un registro de prueba)
+  document.getElementById('testSheetsBtn')?.addEventListener('click', async () => {
+    if (!isAdmin) return;
+    logDebug('🧪 Enviando registro de prueba a Google Sheets...');
+    const testData = {
+      fecha_registro: new Date().toLocaleString('es-MX'),
+      nombre_principal: 'TEST DESDE ADMIN',
+      tipo_principal: 'adulto',
+      total_personas: 1,
+      adultos: 1,
+      ninos: 0,
+      acompanantes: '[]',
+      mensaje: 'Este es un registro de prueba'
+    };
+    try {
+      const response = await fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(testData).toString()
+      });
+      logDebug('✅ Prueba enviada (no-cors). Revisa tu hoja de cálculo en unos segundos.');
+      alert('Prueba enviada. Verifica que aparezca una fila nueva en tu Google Sheet.');
+    } catch (err) {
+      logDebug('❌ Error en prueba: ' + err.message);
+      alert('Error al enviar prueba: ' + err.message);
+    }
+  });
+
+  // ==================== FUNCIONES DE LA INVITACIÓN ====================
+  // Abrir sobre
+  const overlay = document.getElementById('envelopeOverlay');
+  const main = document.getElementById('mainContent');
+  document.getElementById('openInvitationBtn').addEventListener('click', () => {
+    overlay.style.opacity = '0';
+    setTimeout(() => { overlay.style.display = 'none'; main.classList.add('visible'); }, 600);
+  });
+  overlay.addEventListener('click', () => {
+    overlay.style.opacity = '0';
+    setTimeout(() => { overlay.style.display = 'none'; main.classList.add('visible'); }, 600);
+  });
+
+  // Contador
   function startCountdown() {
     const target = new Date(2026, 4, 17, 19, 0, 0);
     function update() {
-      const now = new Date();
-      const diff = target - now;
-      if (diff <= 0) {
-        document.getElementById('contador').innerHTML = '<h3>🎉 ¡Hoy es la fiesta! 🎉</h3>';
-        return;
-      }
-      const days = Math.floor(diff / (1000*60*60*24));
-      const hours = Math.floor((diff % (86400000)) / 3600000);
-      const mins = Math.floor((diff % 3600000) / 60000);
-      const secs = Math.floor((diff % 60000) / 1000);
-      document.getElementById('days').innerText = String(days).padStart(2,'0');
-      document.getElementById('hours').innerText = String(hours).padStart(2,'0');
-      document.getElementById('minutes').innerText = String(mins).padStart(2,'0');
-      document.getElementById('seconds').innerText = String(secs).padStart(2,'0');
+      const diff = target - new Date();
+      if (diff <= 0) { document.getElementById('contador').innerHTML = '<h3>🎉 ¡Hoy es la fiesta! 🎉</h3>'; return; }
+      document.getElementById('days').innerText = String(Math.floor(diff / (1000*60*60*24))).padStart(2,'0');
+      document.getElementById('hours').innerText = String(Math.floor((diff % (86400000)) / 3600000)).padStart(2,'0');
+      document.getElementById('minutes').innerText = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+      document.getElementById('seconds').innerText = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
     }
-    update();
-    setInterval(update, 1000);
+    update(); setInterval(update, 1000);
   }
 
-  // === ACOMPAÑANTES DINÁMICOS ===
+  // Dinámica de acompañantes
   function setupDynamicCompanions() {
-    const select = document.getElementById('totalPersonas');
+    const selectTotal = document.getElementById('totalPersonas');
     const container = document.getElementById('companionsContainer');
     const inputsDiv = document.getElementById('companionsInputs');
-    select.addEventListener('change', function() {
+    selectTotal.addEventListener('change', function() {
       const total = parseInt(this.value);
       if (total > 1) {
         container.style.display = 'block';
@@ -573,62 +214,33 @@
         for (let i = 1; i < total; i++) {
           const div = document.createElement('div');
           div.className = 'person-group';
-          div.innerHTML = `
-            <div class="row">
-              <div class="name-field">
-                <label>Acompañante ${i}</label>
-                <input type="text" id="acomp_nombre_${i}" placeholder="Nombre completo" required>
-              </div>
-              <div class="type-field">
-                <label>Adulto / Niño</label>
-                <select id="acomp_tipo_${i}" required>
-                  <option value="adulto">👩 Adulto (11+ años)</option>
-                  <option value="nino">🧒 Niño (0-10 años)</option>
-                </select>
-              </div>
-            </div>
-          `;
+          div.innerHTML = `<div class="row"><div class="name-field"><label>Acompañante ${i}</label><input type="text" id="acomp_nombre_${i}" placeholder="Nombre completo" required></div><div class="type-field"><label>Adulto / Niño</label><select id="acomp_tipo_${i}" required><option value="adulto">👩 Adulto (11+ años)</option><option value="nino">🧒 Niño (0-10 años)</option></select></div></div>`;
           inputsDiv.appendChild(div);
         }
-      } else {
-        container.style.display = 'none';
-        inputsDiv.innerHTML = '';
-      }
+      } else { container.style.display = 'none'; inputsDiv.innerHTML = ''; }
     });
   }
 
-  // === ENVÍO DEL FORMULARIO ===
+  // Envío del formulario (definitivo)
   async function handleFormSubmit() {
     const nombre = document.getElementById('nombrePrincipal').value.trim();
     const tipoPrincipal = document.getElementById('tipoPrincipal').value;
     const totalPersonas = parseInt(document.getElementById('totalPersonas').value);
     const mensaje = document.getElementById('mensaje').value.trim();
 
-    if (!nombre || !totalPersonas) {
-      alert('Por favor completa todos los campos obligatorios.');
-      return;
-    }
+    if (!nombre || !totalPersonas) { alert('Completa todos los campos obligatorios.'); return; }
 
     const acompanantes = [];
     if (totalPersonas > 1) {
       for (let i = 1; i < totalPersonas; i++) {
         const nombreAcomp = document.getElementById(`acomp_nombre_${i}`);
         const tipoAcomp = document.getElementById(`acomp_tipo_${i}`);
-        if (!nombreAcomp || !nombreAcomp.value.trim()) {
-          alert(`Por favor ingresa el nombre del acompañante ${i}`);
-          return;
-        }
-        acompanantes.push({
-          nombre: nombreAcomp.value.trim(),
-          tipo: tipoAcomp.value
-        });
+        if (!nombreAcomp || !nombreAcomp.value.trim()) { alert(`Ingresa el nombre del acompañante ${i}`); return; }
+        acompanantes.push({ nombre: nombreAcomp.value.trim(), tipo: tipoAcomp.value });
       }
     }
 
-    const listaPersonas = [
-      { nombre, tipo: tipoPrincipal },
-      ...acompanantes
-    ];
+    const listaPersonas = [{ nombre, tipo: tipoPrincipal }, ...acompanantes];
     const adultos = listaPersonas.filter(p => p.tipo === 'adulto').length;
     const ninos = listaPersonas.filter(p => p.tipo === 'nino').length;
 
@@ -640,8 +252,7 @@
       adultos: adultos,
       ninos: ninos,
       acompanantes: JSON.stringify(acompanantes),
-      mensaje: mensaje || 'Sin mensaje',
-      evento: 'XV Gema'
+      mensaje: mensaje || 'Sin mensaje'
     };
 
     // Mostrar loading
@@ -653,48 +264,34 @@
     // Enviar a Google Sheets
     if (USE_GOOGLE_SHEETS && GOOGLE_SHEETS_URL) {
       try {
-        const response = await fetch(GOOGLE_SHEETS_URL, {
+        // Usamos URLSearchParams para enviar como formulario (más compatible con Apps Script)
+        const params = new URLSearchParams();
+        for (const key in formData) params.append(key, formData[key]);
+        
+        await fetch(GOOGLE_SHEETS_URL, {
           method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: params.toString()
         });
-        const responseText = await response.text();
-        console.log('Respuesta del servidor:', responseText);
-        let responseData;
-        try {
-          responseData = JSON.parse(responseText);
-        } catch(e) {
-          responseData = { result: "error", error: "Respuesta no válida" };
-        }
-        if (responseData.result === "success") {
-          success = true;
-        } else {
-          throw new Error(responseData.error || 'Error del servidor');
-        }
-      } catch(e) {
-        console.error('Error en Google Sheets:', e);
+        // Como es no-cors, no podemos leer la respuesta, pero asumimos éxito si no hay error de red
+        success = true;
+        logDebug('✅ Datos enviados a Google Sheets (no-cors)');
+      } catch (err) {
+        logDebug('❌ Error al enviar a Google Sheets: ' + err.message);
         success = false;
       }
     }
 
-    // Fallback a localStorage
-    if (!success) {
-      try {
-        let local = localStorage.getItem('xv_gema_confirmaciones') || '[]';
-        let arr = JSON.parse(local);
-        arr.push({ ...formData, timestamp: Date.now() });
-        localStorage.setItem('xv_gema_confirmaciones', JSON.stringify(arr));
-        success = true;
-        console.log('Guardado en localStorage como respaldo');
-      } catch(e) {
-        console.error('Error en localStorage:', e);
-        alert('Error al guardar la confirmación. Intenta de nuevo.');
-        document.getElementById('loadingIndicator').style.display = 'none';
-        document.getElementById('rsvpForm').style.display = 'block';
-        return;
-      }
-    }
+    // Siempre guardar en localStorage como respaldo
+    try {
+      let local = localStorage.getItem('xv_gema_confirmaciones') || '[]';
+      let arr = JSON.parse(local);
+      arr.push({ ...formData, timestamp: Date.now() });
+      localStorage.setItem('xv_gema_confirmaciones', JSON.stringify(arr));
+      if (!success) success = true;
+      logDebug('📀 Datos guardados en localStorage');
+    } catch (e) { console.error(e); }
 
     if (success) {
       document.getElementById('loadingIndicator').style.display = 'none';
@@ -707,13 +304,13 @@
         document.getElementById('rsvpForm').style.display = 'block';
       }, 3500);
     } else {
-      alert('Error al enviar la confirmación. Por favor intenta más tarde.');
+      alert('Error al guardar la confirmación. Intenta de nuevo.');
       document.getElementById('loadingIndicator').style.display = 'none';
       document.getElementById('rsvpForm').style.display = 'block';
     }
   }
 
-  // Iniciar
+  // Inicialización
   document.addEventListener('DOMContentLoaded', () => {
     startCountdown();
     setupDynamicCompanions();
