@@ -49,7 +49,6 @@
       100% { opacity: 0.5; background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
     }
 
-    /* Fondo de respaldo degradado rosa intenso */
     .bg-gradient {
       position: fixed;
       top: 0;
@@ -60,13 +59,17 @@
       z-index: -2;
     }
 
-    /* Contenido principal semi-transparente */
     .main-content {
       position: relative;
       z-index: 2;
       background: rgba(255, 245, 245, 0.92);
       border-radius: 0 0 48px 48px;
       backdrop-filter: blur(1px);
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .main-content.visible {
+      opacity: 1;
     }
 
     /* ===== SOBRE (animación) ===== */
@@ -138,16 +141,6 @@
       transform: scale(1.02);
     }
 
-    /* Contenido principal visible después de abrir */
-    .main-content {
-      opacity: 0;
-      transition: opacity 1.2s ease;
-    }
-    .main-content.visible {
-      opacity: 1;
-    }
-
-    /* Resto del diseño */
     .container {
       max-width: 1100px;
       margin: 0 auto;
@@ -281,7 +274,6 @@
       transform: scale(0.97);
     }
 
-    /* Formulario */
     .rsvp-form {
       max-width: 650px;
       margin: 0 auto;
@@ -308,7 +300,6 @@
       font-family: inherit;
       font-size: 1rem;
     }
-    /* Estilo para el grupo de persona (nombre + tipo) que se usa en principal y acompañantes */
     .person-group {
       background: #fff9fc;
       border-radius: 40px;
@@ -329,11 +320,6 @@
     .person-group .row .type-field {
       flex: 1;
       min-width: 120px;
-    }
-    .person-group label {
-      font-size: 0.85rem;
-      margin-bottom: 4px;
-      display: block;
     }
     .companions-container {
       background: #fff4f9;
@@ -468,7 +454,7 @@
     </div>
   </section>
 
-  <!-- RSVP con campos dinámicos (Adulto/Niño) -->
+  <!-- RSVP -->
   <section>
     <div class="container">
       <div class="section-title">Confirma tu asistencia</div>
@@ -485,7 +471,6 @@
           <input type="text" id="nombrePrincipal" placeholder="Ej: María González" required>
         </div>
 
-        <!-- Selector de tipo de invitado principal -->
         <div class="form-group">
           <label>Eres:</label>
           <select id="tipoPrincipal" required>
@@ -539,6 +524,13 @@
 </div>
 
 <script>
+  // ============================================
+  //  CONFIGURACIÓN DE GOOGLE SHEETS
+  // ============================================
+  // Esta es la URL que me proporcionaste
+  const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyWujFf_xENCdj3zvg1howqqEF5hTA5YwFCZQKXVMssAaSjPZVZFcjOBpqDZRhzuWd4/exec';
+  const USE_GOOGLE_SHEETS = true;   // Activar envío a Google Sheets
+
   // --- ABRIR SOBRE ---
   const overlay = document.getElementById('envelopeOverlay');
   const main = document.getElementById('mainContent');
@@ -551,7 +543,6 @@
       main.classList.add('visible');
     }, 600);
   }
-
   overlay.addEventListener('click', openInvitation);
   openBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -581,7 +572,7 @@
     setInterval(update, 1000);
   }
 
-  // --- DINÁMICA DE ACOMPAÑANTES (con nombre + tipo adulto/niño) ---
+  // --- DINÁMICA DE ACOMPAÑANTES (con nombre y tipo adulto/niño) ---
   function setupDynamicCompanions() {
     const selectTotal = document.getElementById('totalPersonas');
     const container = document.getElementById('companionsContainer');
@@ -619,7 +610,7 @@
     });
   }
 
-  // --- ENVÍO DEL FORMULARIO ---
+  // --- ENVÍO DEL FORMULARIO (Google Sheets + localStorage) ---
   async function handleFormSubmit() {
     const nombre = document.getElementById('nombrePrincipal').value.trim();
     const tipoPrincipal = document.getElementById('tipoPrincipal').value;
@@ -631,15 +622,6 @@
       return;
     }
 
-    // Validar correo electrónico (opcional, pero lo mantenemos)
-    // Podríamos no pedir email si no es necesario, pero lo dejamos opcional.
-    // Para este caso, mejor lo pedimos como obligatorio para tener contacto.
-    // Como en la imagen no aparece email, lo dejamos como opcional pero lo agregué para trazabilidad.
-    // Voy a quitar la obligatoriedad del email para que sea más fiel a la imagen, pero si lo deseas puedes descomentar.
-    const email = document.getElementById('email') ? document.getElementById('email').value.trim() : '';
-    // Si no existe campo email (lo eliminamos?), mejor lo creamos opcional. Lo voy a comentar en el HTML pero si no está, ignoramos.
-    // Mejor agrego un campo email opcional.
-    
     // Recolectar acompañantes
     const acompanantes = [];
     if (totalPersonas > 1) {
@@ -657,24 +639,26 @@
       }
     }
 
-    // Construir resumen
+    // Construir lista completa y contar adultos/niños
     const listaPersonas = [
-      { nombre: nombre, tipo: tipoPrincipal, rol: 'Principal' },
-      ...acompanantes.map((a, idx) => ({ ...a, rol: `Acompañante ${idx+1}` }))
+      { nombre, tipo: tipoPrincipal },
+      ...acompanantes
     ];
-
     const adultos = listaPersonas.filter(p => p.tipo === 'adulto').length;
     const ninos = listaPersonas.filter(p => p.tipo === 'nino').length;
 
+    // Preparar datos a enviar a Google Sheets
+    // Aplanamos la información para que sea fácil de guardar en columnas
     const formData = {
+      fecha_registro: new Date().toLocaleString('es-MX'),
       nombre_principal: nombre,
       tipo_principal: tipoPrincipal,
       total_personas: totalPersonas,
-      acompanantes: acompanantes,
-      resumen: `${adultos} adulto(s), ${ninos} niño(s)`,
+      adultos: adultos,
+      ninos: ninos,
+      acompanantes: JSON.stringify(acompanantes), // Guardamos los acompañantes como texto JSON
       mensaje: mensaje || 'Sin mensaje',
-      evento: 'XV Gema',
-      fecha_registro: new Date().toLocaleString('es-MX')
+      evento: 'XV Gema'
     };
 
     // Mostrar loading
@@ -682,17 +666,45 @@
     document.getElementById('rsvpForm').style.display = 'none';
 
     let success = false;
-    try {
-      let local = localStorage.getItem('xv_gema_confirmaciones') || '[]';
-      let arr = JSON.parse(local);
-      arr.push({ ...formData, timestamp: Date.now() });
-      localStorage.setItem('xv_gema_confirmaciones', JSON.stringify(arr));
-      success = true;
-    } catch(e) { console.warn(e); }
 
-    // Si quisieras enviar a Google Sheets, descomenta y agrega tu URL
-    // const GOOGLE_URL = 'https://script.google.com/macros/s/TU_ID/exec';
-    // try { await fetch(GOOGLE_URL, {method:'POST', mode:'no-cors', body:JSON.stringify(formData)}); } catch(e) {}
+    // 1. Enviar a Google Sheets
+    if (USE_GOOGLE_SHEETS && GOOGLE_SHEETS_URL) {
+      try {
+        // Usamos fetch con modo 'no-cors' para evitar problemas de CORS
+        // y enviamos los datos como JSON en el cuerpo de la petición
+        await fetch(GOOGLE_SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors', // Importante para que funcione en páginas estáticas
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+        console.log('✅ Datos enviados a Google Sheets');
+        success = true;
+      } catch(e) {
+        console.warn('❌ Error en Google Sheets, guardando local:', e);
+        success = false;
+      }
+    }
+
+    // 2. Guardar en localStorage como respaldo si falló Google Sheets o si no se usa
+    if (!success) {
+      try {
+        let local = localStorage.getItem('xv_gema_confirmaciones') || '[]';
+        let arr = JSON.parse(local);
+        arr.push({ ...formData, timestamp: Date.now() });
+        localStorage.setItem('xv_gema_confirmaciones', JSON.stringify(arr));
+        success = true;
+        console.log('📀 Datos guardados en localStorage como respaldo');
+      } catch(e) {
+        console.error('Error guardando en localStorage:', e);
+        alert('Error al guardar la confirmación. Intenta de nuevo.');
+        document.getElementById('loadingIndicator').style.display = 'none';
+        document.getElementById('rsvpForm').style.display = 'block';
+        return;
+      }
+    }
 
     if (success) {
       document.getElementById('loadingIndicator').style.display = 'none';
@@ -715,8 +727,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     startCountdown();
     setupDynamicCompanions();
-    const submitBtn = document.getElementById('submitBtn');
-    if (submitBtn) submitBtn.addEventListener('click', handleFormSubmit);
+    document.getElementById('submitBtn').addEventListener('click', handleFormSubmit);
   });
 </script>
 </body>
