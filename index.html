@@ -23,7 +23,7 @@
       position: relative;
     }
 
-    /* === FONDO CON BRILLITOS (PURPURINA ANIMADA) === */
+    /* === FONDO CON BRILLITOS === */
     body::before {
       content: "";
       position: fixed;
@@ -72,7 +72,7 @@
       opacity: 1;
     }
 
-    /* ===== SOBRE (animación) ===== */
+    /* === SOBRE === */
     .envelope-overlay {
       position: fixed;
       top: 0;
@@ -164,7 +164,7 @@
     }
     .girl-name {
       font-family: 'Great Vibes', cursive;
-      font-size: 3.2rem;
+      font-size: 3rem;
       color: #d45a86;
       margin-top: -8px;
     }
@@ -369,7 +369,7 @@
 <body>
 <div class="bg-gradient"></div>
 
-<!-- SOBRE CON ANIMACIÓN -->
+<!-- SOBRE -->
 <div id="envelopeOverlay" class="envelope-overlay">
   <div class="envelope-card">
     <div class="envelope-icon"><i class="fas fa-envelope-open-text"></i></div>
@@ -380,7 +380,7 @@
   </div>
 </div>
 
-<!-- CONTENIDO PRINCIPAL -->
+<!-- CONTENIDO -->
 <div id="mainContent" class="main-content">
   <header>
     <div class="title-icon"><i class="fas fa-crown"></i></div>
@@ -407,23 +407,23 @@
     </div>
   </section>
 
-  <!-- Familiares -->
+  <!-- Familia -->
   <section>
     <div class="container">
       <div class="section-title">Familia & Padrinos</div>
       <div class="info-grid">
         <div class="info-card">
           <div class="info-title"><i class="fas fa-heart"></i> Padres</div>
-          <ul class="info-list" style="list-style:none;">
-            <li><i class="fas fa-user icon-small" style="color:#e86693;"></i> Mario Alberto Figueroa Flores</li>
-            <li><i class="fas fa-user icon-small" style="color:#e86693;"></i> Luz María Inojosa Ceja</li>
+          <ul style="list-style:none;">
+            <li><i class="fas fa-user" style="color:#e86693;"></i> Mario Alberto Figueroa Flores</li>
+            <li><i class="fas fa-user" style="color:#e86693;"></i> Luz María Inojosa Ceja</li>
           </ul>
         </div>
         <div class="info-card">
           <div class="info-title"><i class="fas fa-hands-helping"></i> Padrinos</div>
-          <ul class="info-list" style="list-style:none;">
-            <li><i class="fas fa-user icon-small" style="color:#e86693;"></i> Rodrigo Figueroa Flores</li>
-            <li><i class="fas fa-user icon-small" style="color:#e86693;"></i> Abril Neftali Contreras de Figueroa</li>
+          <ul style="list-style:none;">
+            <li><i class="fas fa-user" style="color:#e86693;"></i> Rodrigo Figueroa Flores</li>
+            <li><i class="fas fa-user" style="color:#e86693;"></i> Abril Neftali Contreras de Figueroa</li>
           </ul>
         </div>
       </div>
@@ -445,9 +445,9 @@
         </div>
         <div class="info-card">
           <div class="info-title"><i class="fas fa-tshirt"></i> Código de vestimenta</div>
-          <p>Casual - Elegante<br><small>Un toque especial para celebrar</small></p>
+          <p>Casual - Elegante</p>
           <div class="warning-red">
-            <i class="fas fa-ban" style="margin-right: 6px;"></i> Favor de evitar prendas de color rojo
+            <i class="fas fa-ban"></i> Favor de evitar prendas de color rojo
           </div>
         </div>
       </div>
@@ -467,10 +467,9 @@
 
       <div class="rsvp-form" id="rsvpForm">
         <div class="form-group">
-          <label><i class="fas fa-user"></i> Tu nombre completo *</label>
+          <label>Tu nombre completo *</label>
           <input type="text" id="nombrePrincipal" placeholder="Ej: María González" required>
         </div>
-
         <div class="form-group">
           <label>Eres:</label>
           <select id="tipoPrincipal" required>
@@ -479,9 +478,8 @@
           </select>
           <div class="note-ages">📌 Se considera niño de 0 a 10 años, adulto de 11 años en adelante.</div>
         </div>
-
         <div class="form-group">
-          <label><i class="fas fa-users"></i> Número total de personas (incluyéndote) *</label>
+          <label>Número total de personas (incluyéndote) *</label>
           <select id="totalPersonas" required>
             <option value="">Selecciona...</option>
             <option value="1">1 persona (solo yo)</option>
@@ -492,17 +490,14 @@
             <option value="6">6 personas</option>
           </select>
         </div>
-
         <div id="companionsContainer" class="companions-container" style="display:none;">
           <p style="font-weight:bold; margin-bottom:15px;">👥 Datos de los acompañantes:</p>
           <div id="companionsInputs"></div>
         </div>
-
         <div class="form-group">
-          <label><i class="fas fa-comment"></i> Mensaje (opcional)</label>
+          <label>Mensaje (opcional)</label>
           <textarea id="mensaje" rows="2" placeholder="Déjanos algún mensaje..."></textarea>
         </div>
-
         <button type="button" id="submitBtn" class="submit-btn">Enviar confirmación</button>
         <p style="font-size:0.7rem; text-align:center; margin-top:15px;">Tu información está segura.</p>
       </div>
@@ -514,7 +509,7 @@
       </div>
 
       <p style="text-align:center; margin-top:45px; font-style:italic; color:#a14c6e;">Los momentos más felices se tornan más lindos cuando los compartimos con familia y amigos.</p>
-      <p style="text-align:center; font-family:'Great Vibes'; font-size:1.8rem; margin-top:15px;">¡Te esperamos!</p>
+      <p style="text-align:center; font-family:'Great Vibes'; font-size:1.8rem;">¡Te esperamos!</p>
     </div>
   </section>
 
@@ -524,32 +519,25 @@
 </div>
 
 <script>
-  // ============================================
-  //  CONFIGURACIÓN DE GOOGLE SHEETS
-  // ============================================
-  // Esta es la URL que me proporcionaste
+  // === CONFIGURACIÓN ===
   const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyWujFf_xENCdj3zvg1howqqEF5hTA5YwFCZQKXVMssAaSjPZVZFcjOBpqDZRhzuWd4/exec';
-  const USE_GOOGLE_SHEETS = true;   // Activar envío a Google Sheets
+  const USE_GOOGLE_SHEETS = true;
 
-  // --- ABRIR SOBRE ---
+  // === ABRIR SOBRE ===
   const overlay = document.getElementById('envelopeOverlay');
-  const main = document.getElementById('mainContent');
+  const mainContent = document.getElementById('mainContent');
   const openBtn = document.getElementById('openInvitationBtn');
-
   function openInvitation() {
     overlay.style.opacity = '0';
     setTimeout(() => {
       overlay.style.display = 'none';
-      main.classList.add('visible');
+      mainContent.classList.add('visible');
     }, 600);
   }
   overlay.addEventListener('click', openInvitation);
-  openBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openInvitation();
-  });
+  openBtn.addEventListener('click', (e) => { e.stopPropagation(); openInvitation(); });
 
-  // --- CONTADOR (17 Mayo 2026, 19:00) ---
+  // === CONTADOR ===
   function startCountdown() {
     const target = new Date(2026, 4, 17, 19, 0, 0);
     function update() {
@@ -572,13 +560,12 @@
     setInterval(update, 1000);
   }
 
-  // --- DINÁMICA DE ACOMPAÑANTES (con nombre y tipo adulto/niño) ---
+  // === ACOMPAÑANTES DINÁMICOS ===
   function setupDynamicCompanions() {
-    const selectTotal = document.getElementById('totalPersonas');
+    const select = document.getElementById('totalPersonas');
     const container = document.getElementById('companionsContainer');
     const inputsDiv = document.getElementById('companionsInputs');
-
-    selectTotal.addEventListener('change', function() {
+    select.addEventListener('change', function() {
       const total = parseInt(this.value);
       if (total > 1) {
         container.style.display = 'block';
@@ -589,7 +576,7 @@
           div.innerHTML = `
             <div class="row">
               <div class="name-field">
-                <label>Nombre del acompañante ${i}</label>
+                <label>Acompañante ${i}</label>
                 <input type="text" id="acomp_nombre_${i}" placeholder="Nombre completo" required>
               </div>
               <div class="type-field">
@@ -610,7 +597,7 @@
     });
   }
 
-  // --- ENVÍO DEL FORMULARIO (Google Sheets + localStorage) ---
+  // === ENVÍO DEL FORMULARIO ===
   async function handleFormSubmit() {
     const nombre = document.getElementById('nombrePrincipal').value.trim();
     const tipoPrincipal = document.getElementById('tipoPrincipal').value;
@@ -622,7 +609,6 @@
       return;
     }
 
-    // Recolectar acompañantes
     const acompanantes = [];
     if (totalPersonas > 1) {
       for (let i = 1; i < totalPersonas; i++) {
@@ -639,7 +625,6 @@
       }
     }
 
-    // Construir lista completa y contar adultos/niños
     const listaPersonas = [
       { nombre, tipo: tipoPrincipal },
       ...acompanantes
@@ -647,8 +632,6 @@
     const adultos = listaPersonas.filter(p => p.tipo === 'adulto').length;
     const ninos = listaPersonas.filter(p => p.tipo === 'nino').length;
 
-    // Preparar datos a enviar a Google Sheets
-    // Aplanamos la información para que sea fácil de guardar en columnas
     const formData = {
       fecha_registro: new Date().toLocaleString('es-MX'),
       nombre_principal: nombre,
@@ -656,7 +639,7 @@
       total_personas: totalPersonas,
       adultos: adultos,
       ninos: ninos,
-      acompanantes: JSON.stringify(acompanantes), // Guardamos los acompañantes como texto JSON
+      acompanantes: JSON.stringify(acompanantes),
       mensaje: mensaje || 'Sin mensaje',
       evento: 'XV Gema'
     };
@@ -667,28 +650,35 @@
 
     let success = false;
 
-    // 1. Enviar a Google Sheets
+    // Enviar a Google Sheets
     if (USE_GOOGLE_SHEETS && GOOGLE_SHEETS_URL) {
       try {
-        // Usamos fetch con modo 'no-cors' para evitar problemas de CORS
-        // y enviamos los datos como JSON en el cuerpo de la petición
-        await fetch(GOOGLE_SHEETS_URL, {
+        const response = await fetch(GOOGLE_SHEETS_URL, {
           method: 'POST',
-          mode: 'no-cors', // Importante para que funcione en páginas estáticas
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
         });
-        console.log('✅ Datos enviados a Google Sheets');
-        success = true;
+        const responseText = await response.text();
+        console.log('Respuesta del servidor:', responseText);
+        let responseData;
+        try {
+          responseData = JSON.parse(responseText);
+        } catch(e) {
+          responseData = { result: "error", error: "Respuesta no válida" };
+        }
+        if (responseData.result === "success") {
+          success = true;
+        } else {
+          throw new Error(responseData.error || 'Error del servidor');
+        }
       } catch(e) {
-        console.warn('❌ Error en Google Sheets, guardando local:', e);
+        console.error('Error en Google Sheets:', e);
         success = false;
       }
     }
 
-    // 2. Guardar en localStorage como respaldo si falló Google Sheets o si no se usa
+    // Fallback a localStorage
     if (!success) {
       try {
         let local = localStorage.getItem('xv_gema_confirmaciones') || '[]';
@@ -696,9 +686,9 @@
         arr.push({ ...formData, timestamp: Date.now() });
         localStorage.setItem('xv_gema_confirmaciones', JSON.stringify(arr));
         success = true;
-        console.log('📀 Datos guardados en localStorage como respaldo');
+        console.log('Guardado en localStorage como respaldo');
       } catch(e) {
-        console.error('Error guardando en localStorage:', e);
+        console.error('Error en localStorage:', e);
         alert('Error al guardar la confirmación. Intenta de nuevo.');
         document.getElementById('loadingIndicator').style.display = 'none';
         document.getElementById('rsvpForm').style.display = 'block';
@@ -717,13 +707,13 @@
         document.getElementById('rsvpForm').style.display = 'block';
       }, 3500);
     } else {
-      alert('Error al guardar, intenta de nuevo.');
+      alert('Error al enviar la confirmación. Por favor intenta más tarde.');
       document.getElementById('loadingIndicator').style.display = 'none';
       document.getElementById('rsvpForm').style.display = 'block';
     }
   }
 
-  // Inicializar
+  // Iniciar
   document.addEventListener('DOMContentLoaded', () => {
     startCountdown();
     setupDynamicCompanions();
